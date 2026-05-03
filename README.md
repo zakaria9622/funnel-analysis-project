@@ -1,184 +1,148 @@
 # E-commerce Funnel Analysis
 
-## Project Overview
+**What this is:** Event-level data, cleaned and modeled into a **strict user funnel**, so stakeholders see **where demand dies before it ever becomes a cart**—not just “conversion is low.”
 
-This project analyzes an e-commerce conversion funnel using event-level user data.
-
-The goal is to understand how users move through the funnel:
-
-1. Product view
-2. Add to cart
-3. Purchase
-
-The analysis identifies the main conversion drop-off and provides business recommendations to improve revenue performance.
+Built for clarity in a portfolio or interview: business question first, methodology second, numbers third, decisions last.
 
 ---
 
-## Dataset
+## The business problem
 
-The dataset contains e-commerce user events with fields such as:
+Growth and acquisition can look healthy while **revenue does not keep pace**. A common tension:
 
-- user_id
-- event_type
-- event_time
-- product_id
-- category_id
-- brand
-- price
+- Marketing: *“We are driving views and engagement.”*  
+- Finance / leadership: *“Purchases are not scaling with that activity.”*
 
-The analysis focuses on the key funnel events:
+Without a funnel, teams argue from averages. With a **time-ordered, user-level funnel**, you can show **which step loses the most qualified opportunity** and whether the next dollar should go to **traffic, product experience, or checkout**.
 
-- view
-- cart
-- purchase
+This project uses a **strict** definition of “in funnel” so casual browsing is not mistaken for progress toward purchase.
 
 ---
 
-## Methodology
+## What I built (project overview)
 
-The analysis was performed using Python and pandas.
+Using **Python** and **pandas** on e-commerce **view / cart / purchase** events:
 
-Main steps:
+1. Load and clean event-level data.  
+2. Keep fields needed for funnel and segmentation (`user_id`, `event_type`, `event_time`, plus `category_id` and `brand` when present).  
+3. Apply a **strict sequential funnel** per user: first **view** → first **cart after** that view → first **purchase after** that cart.  
+4. Report overall conversion and **category / brand** views, with rules on segment tables so sparse or empty funnels do not drown out the main story (see `python/analysis.py` output).
 
-1. Load the event dataset
-2. Keep relevant columns for funnel analysis
-3. Clean missing or invalid values
-4. Build a strict sequential funnel
-5. Count unique users at each funnel step
-6. Calculate conversion rates between each step
-7. Identify the main conversion leak
-
----
-
-## Key Results
-
-| Funnel Step | Users |
-|---|---:|
-| Product Views | 3,022,130 |
-| Add to Cart | 336,718 |
-| Purchases | 196,474 |
-
-| Conversion Metric | Rate |
-|---|---:|
-| View to Cart | 11.14% |
-| Cart to Purchase | 58.35% |
-| Total View to Purchase | 6.50% |
-
----
-
-## Business Insights
-
-The biggest drop-off happens between product view and add-to-cart.
-
-Only 11.14% of users who viewed a product added it to cart. However, once users reached the cart stage, 58.35% completed a purchase.
-
-This suggests that the main business opportunity is not the checkout step, but the product discovery and product page exp## Business Diagnosis
-
-The funnel analysis shows that the main revenue leak is not located at the checkout stage, but much earlier in the customer journey.
-
-Only 11.14% of users who view a product add it to cart, while 58.35% of users who reach the cart complete the purchase.
-
-This means the company already has a relatively strong checkout process, but loses most potential customers before they express buying intent.
-
-The priority should therefore be to improve product page persuasion, offer clarity, and add-to-cart motivation rather than focusing first on checkout optimization.erience.
-
----
-
-## Business Diagnosis
-
-The funnel analysis shows that the main revenue leak is not located at the checkout stage, but much earlier in the customer journey.
-
-Only 11.14% of users who view a product add it to cart, while 58.35% of users who reach the cart complete the purchase.
-
-This means the company already has a relatively strong checkout process, but loses most potential customers before they express buying intent.
-
-The priority should therefore be to improve product page persuasion, offer clarity, and add-to-cart motivation rather than focusing first on checkout optimization.
-
----
-
-## What I Would Present to a Business Team
-
-Problem:
-The company loses most potential buyers between product view and add-to-cart.
-
-Finding:
-Only 11.14% of users who view a product add it to cart, while 58.35% of cart users complete a purchase.
-
-Decision:
-Prioritize product page optimization before checkout optimization.
-
-Expected Impact:
-Increase add-to-cart rate, improve global conversion, and generate more purchases without increasing traffic acquisition costs.
-
----
-
-## Actionable Recommendations
-
-### 1. Improve product page conversion
-
-Since the weakest step is product view → add to cart, the company should improve product pages before investing heavily in checkout optimization.
-
-Recommended actions:
-- make product benefits clearer above the fold
-- improve product images and descriptions
-- highlight delivery conditions earlier
-- display return policy and trust elements more visibly
-- strengthen the add-to-cart call-to-action
-
-Expected business impact:
-- higher add-to-cart rate
-- more qualified users entering the checkout flow
-- higher total purchases without increasing acquisition spend
-
-### 2. Run A/B tests on product pages
-
-The company should test different product page versions to identify what increases add-to-cart behavior.
-
-Suggested tests:
-- CTA wording and placement
-- product image layout
-- price and promotion visibility
-- delivery cost visibility
-- social proof and customer reviews
-
-Success metric:
-- improvement in view-to-cart conversion rate
-
-### 3. Segment funnel performance by category and brand
-
-The global funnel rate gives a high-level diagnosis, but the next step is to identify which product categories or brands are responsible for the largest drop-offs.
-
-Recommended analysis:
-- view-to-cart rate by category
-- cart-to-purchase rate by category
-- average price by category
-- conversion rate by brand
-- revenue opportunity by weak-performing category
-
-Business value:
-- prioritize fixes on categories with high traffic but low add-to-cart rate
-- avoid wasting effort on low-volume segments
-
----
-
-## Tools Used
-
-- Python
-- Pandas
-- CSV data analysis
-- Funnel analysis
-- Customer behavior analysis
-
----
-
-## How to Run the Project
-
-Install dependencies:
+**Run from the project root:**
 
 ```bash
 pip install -r requirements.txt
-```
-Run the analysis:
-```bash
 python python/analysis.py
 ```
+
+---
+
+## Dataset (at a glance)
+
+Typical fields in the CSV include:
+
+- `user_id`, `event_type`, `event_time`  
+- `product_id`, `price`, `category_id`, `brand` (where available)
+
+Funnel events used: **view**, **cart**, **purchase**.
+
+---
+
+## Methodology (plain English)
+
+| Choice | Why it matters |
+|--------|----------------|
+| **Strict sequence** | Cart only counts **after** the user’s first view; purchase only **after** that cart. Same user, same journey—no stitching unrelated sessions into one funnel. |
+| **Unique users per step** | Rates reflect **people**, not raw event volume, so one power browser does not inflate “progress.” |
+| **Segments** | Category and brand use the **same** strict logic on events in that segment; bottom lists use volume and activity filters so recommendations stay grounded. |
+
+---
+
+## Key results (from this run)
+
+| Funnel step | Unique users |
+|-------------|-------------:|
+| Product views | 3,022,130 |
+| Add to cart | 336,718 |
+| Purchases | 196,474 |
+
+| Conversion metric | Rate |
+|--------------------|-----:|
+| View → cart | 11.14% |
+| Cart → purchase | 58.35% |
+| Total view → purchase | 6.50% |
+
+*Figures match the script output; rounding is unchanged.*
+
+---
+
+## Key finding
+
+**The bottleneck is early:** only **11.14%** of users who record a product view go on to add to cart under this strict definition.
+
+**Once intent shows up, conversion is comparatively strong:** **58.35%** of users who reach cart go on to purchase.
+
+So the headline is not “checkout is broken at scale”—it is **“we lose most of the addressable funnel before add-to-cart.”** End-to-end view → purchase at **6.50%** is consistent with that shape.
+
+---
+
+## Business diagnosis
+
+1. **Dominant leak:** View → cart. Most users never signal purchase intent in a way the funnel can count.  
+2. **Relative strength:** Cart → purchase (**58.35%**) is far higher than view → cart (**11.14%**) as a share of users at each step, so **late-stage** friction is **not** the first place to over-invest at the **aggregate** level.  
+3. **Implication for roadmap:** Prioritize **discovery, listings, PDP content, price and promo clarity, trust, and add-to-cart motivation** before treating checkout as the main lever—while still monitoring cart → purchase so fixes upstream do not hide stock, pricing, or trust issues downstream.
+
+---
+
+## Actionable recommendations
+
+| Priority | Action | How you’d measure it |
+|----------|--------|----------------------|
+| 1 | Own **view → cart** as a **primary KPI** for product and lifecycle experiments (PDP, listing layout, delivery/returns messaging, CTA). | Same strict funnel definition as in code; week-over-week or experiment cells. |
+| 2 | **Sequence work by segment** using the script’s category/brand tables: high traffic + weak funnel first. | Compare strict funnel rates before/after changes; no need to optimize long-tail segments first. |
+| 3 | Run **structured tests** (A/B or quasi-experiments); hold **cart → purchase** as a **guardrail** so you do not trade bad add-to-carts for abandoned carts. | Lift on view → cart; alert if cart → purchase drifts far from the **58.35%** baseline without a known cause. |
+| 4 | **Deeper cuts** (same data, next iteration): time, price band, new vs returning—only after the aggregate story is accepted. | Exploratory slices; still no change to the core strict definition unless the business redefines “conversion.” |
+
+---
+
+## Expected KPI impact (honest framing—no fabricated lift)
+
+This project does **not** claim results from tests that were not run. What you *can* say in an application or stakeholder meeting:
+
+- **Primary KPI:** strict **view → cart** (baseline **11.14%**). Small **absolute** improvements at **~3M** viewing users move **large** numbers of people into cart **if** the change is real and sustained.  
+- **Flow-through:** Purchases scale with **cart volume** as long as **cart → purchase** stays in the ballpark of **58.35%**; that is why upstream KPI is the first focus.  
+- **North-star for “success”:** agree a **target band** for view → cart and for **total view → purchase** (baseline **6.50%**) **after** experiments, measured the same way as this baseline.
+
+That is how you discuss impact **without inventing percentage lifts.**
+
+---
+
+## How I’d explain this in an interview
+
+**~45 seconds:**
+
+> “I modeled a strict sequential funnel on e-commerce events: cart has to come after the user’s first view, and purchase after that cart, so we are not flattering ourselves with loose definitions. On this run, about **three million** users hit a view, **about eleven percent** add to cart, and **about fifty-eight percent** of those who cart purchase. So the diagnosis is upstream—grow and improve add-to-cart and PDP quality—while watching cart-to-purchase so we do not break trust or checkout. I’d align experiments to view-to-cart first and use segment outputs to decide where to start.”
+
+**If they ask “so what would you do Monday?”**
+
+> “Pick the highest-traffic categories or brands where the strict funnel is weakest, propose two PDP or listing variants, and measure view-to-cart with cart-to-purchase as a guardrail—using the same definitions as this baseline.”
+
+---
+
+## What this demonstrates (junior DA / marketing analytics)
+
+- Translating **event logs** into **stakeholder language** and a **clear priority**.  
+- Choosing **definitions** (strict funnel) that match the **business question** and avoid misleading rates.  
+- Connecting metrics to **experiment design** and **KPI hierarchy** without overstating certainty.
+
+---
+
+## Tools & layout
+
+**Tools:** Python, pandas; CSV analysis; funnel and segment summaries.
+
+**Layout:**
+
+- `data/` — e.g. `ecommerce_events.csv`  
+- `python/analysis.py` — pipeline and printed results  
+- `requirements.txt` — dependencies  
