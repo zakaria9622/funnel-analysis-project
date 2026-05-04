@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import pandas as pd
 
 
@@ -169,8 +171,9 @@ def print_insights(overall: dict, worst_segment: dict | None) -> None:
 
 
 def main() -> None:
-    data_path = "data/ecommerce_events.csv"
-    df = load_data(data_path)
+    primary = Path("data/ecommerce_events.csv")
+    data_path = primary if primary.exists() else Path("data/ecommerce_events_sample.csv")
+    df = load_data(str(data_path))
     overall_results = calculate_funnel(df)
     print_results(overall_results)
 
