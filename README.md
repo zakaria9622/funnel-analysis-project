@@ -39,6 +39,8 @@ python python/analysis.py
 
 ## Dataset (at a glance)
 
+Note: the repository includes a small sample dataset so the Python pipeline can be executed and reviewed. The final KPI figures shown below come from the full event-level dataset used during the analysis. If the full dataset is available, place it at `data/ecommerce_events.csv`; otherwise the script automatically runs on `data/ecommerce_events_sample.csv`.
+
 Typical fields in the CSV include:
 
 - `user_id`, `event_type`, `event_time`  
