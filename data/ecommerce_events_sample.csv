@@ -1,0 +1,12 @@
+user_id,event_type,event_time,product_id,price,category_id,brand,device
+1,view,2024-01-01 10:00:00,101,49.90,Electronics,BrandA,mobile
+1,cart,2024-01-01 10:05:00,101,49.90,Electronics,BrandA,mobile
+1,purchase,2024-01-01 10:10:00,101,49.90,Electronics,BrandA,mobile
+2,view,2024-01-01 11:00:00,102,79.90,Home,BrandB,desktop
+2,cart,2024-01-01 11:15:00,102,79.90,Home,BrandB,desktop
+3,view,2024-01-02 09:00:00,103,19.90,Fashion,BrandC,mobile
+4,view,2024-01-02 10:00:00,104,29.90,Electronics,BrandA,desktop
+4,purchase,2024-01-02 10:08:00,104,29.90,Electronics,BrandA,desktop
+5,view,2024-01-03 08:00:00,105,39.90,Home,BrandB,mobile
+5,cart,2024-01-03 08:10:00,105,39.90,Home,BrandB,mobile
+5,purchase,2024-01-03 08:20:00,105,39.90,Home,BrandB,mobile
