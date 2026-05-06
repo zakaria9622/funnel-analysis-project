@@ -119,6 +119,22 @@ That is how you discuss impact **without inventing percentage lifts.**
 
 ---
 
+## What I would present to a business team
+
+Problem:
+The company loses most potential buyers between product view and add-to-cart.
+
+Finding:
+Only 11.14% of users who view a product add it to cart, while 58.35% of cart users complete a purchase.
+
+Decision:
+Prioritize product page optimization before checkout optimization.
+
+Expected impact:
+Increase add-to-cart rate, improve global conversion, and generate more purchases without increasing acquisition spend.
+
+---
+
 ## How I’d explain this in an interview
 
 **~45 seconds:**
