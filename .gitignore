@@ -1,0 +1,25 @@
+# Large raw dataset (local only)
+data/ecommerce_events.csv
+
+# Misplaced / duplicate data folder (if present)
+data§/
+
+# Local database files
+*.db
+*.duckdb
+*.sqlite
+
+# Python bytecode
+__pycache__/
+*.pyc
+
+# OS / editor
+.DS_Store
+
+# Secrets
+.env
+
+# Tableau extract files (large)
+outputs/*.hyper
+
+*.twbr
